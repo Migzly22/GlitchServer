@@ -17,7 +17,7 @@ export default class ServerUtils{
             res.send('Hello, TypeScript!');
         });
 
-        await RouteUtils.init(ServerUtils.app, process.cwd(), 'routes');
+        // await RouteUtils.init(ServerUtils.app, process.cwd(), 'routes');
 
         ServerUtils.app.listen(port, () => {
             console.log(`Server is running on port ${port} ${process.cwd()}`);
