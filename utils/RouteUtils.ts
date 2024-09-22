@@ -1,6 +1,9 @@
-import { Application, Request, Response } from "express";
+import express, { Application, Request, Response, Router } from "express";
 import fs from "fs";
 import path from "path";
+import { HttpMethodsType } from "../types/RouteTypes";
+
+
 
 export class RouteUtils {
 
@@ -10,16 +13,29 @@ export class RouteUtils {
                 const folderName = path.join(currentDir, folder);
                 fs.readdirSync(folderName).forEach((dir)=>{
                     var routeDir = path.join(folderName, dir)
-
                     fs.readdirSync(routeDir).forEach((file)=>{
+
                         let fullPath = path.join(routeDir, file);
+
                         if (fullPath.includes(".ts") || fullPath.includes(".js")) {
-                            let pathName = fullPath.toLowerCase().replace('.ts','').replace('.js','').split('\\').join('/')
-                            console.log(pathName);
+
+                            let listofName =  fullPath.toLowerCase().replace('.ts','').replace('.js','').split('\\')
+                            let pathName = listofName.join('/')
+                            let endpoint = `/${dir}/${listofName[listofName.length -1]}`
+
+                            import(pathName).then((routerClass) => {
+                                
+                                let routeData = new routerClass.default()
+                                let routes: Router = express.Router();
+
+                                routeData.getRoutes().map((data:any) =>{
+                                    let method :HttpMethodsType = data.method.toLowerCase() as HttpMethodsType
+                                    routes[method](data.path, data.controller);
+                                })
+                                app.use(endpoint,routes)
+                                console.log("Initializing endpoint:", endpoint)
+                            })
                         }
-                        // console.log("TESTING ",fullPath.toLowerCase(),['.js', '.ts'].includes(fullPath.toLowerCase()), 
-                        //     fullPath.toLowerCase().includes(['.ts','.js'])
-                        // )
                     })
                 })
                 resolve()

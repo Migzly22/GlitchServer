@@ -9,18 +9,17 @@ export default class ServerUtils{
 
     public static async init(port:number, settingConfig?: ApplicationTypes){
         ServerUtils.app = express();
-
         ServerUtils.app.use(cors())
         ServerUtils.app.use(express.json())
 
         ServerUtils.app['get']('/', (req:Request, res:Response) => {
-            res.send('Hello, TypeScript!');
+            res.send('PROJECT EXUDUS IS NOW ONLINE');
         });
 
-        // await RouteUtils.init(ServerUtils.app, process.cwd(), 'routes');
+        await RouteUtils.init(ServerUtils.app, process.cwd(), 'routes');
 
         ServerUtils.app.listen(port, () => {
-            console.log(`Server is running on port ${port} ${process.cwd()}`);
+            console.log(`Server is running on port ${port}`);
         });
     }
     
