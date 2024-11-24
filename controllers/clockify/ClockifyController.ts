@@ -33,7 +33,7 @@ export default class ClockifyController {
             const fetchedData = await ClockifyController.fetchDatas({...query, workspaceId : workspaceId})
             
             const printDocument = ExcelPrinter.print('WAR_TEMPLATE', fetchedData)
-            res.status(200).json(printDocument);
+            res.status(200).json({response : printDocument});
         } catch (error) {
             res.json({ message: 'Error', error : error });
         }
