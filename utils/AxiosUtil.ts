@@ -1,62 +1,69 @@
 import axios from 'axios';
+import { AxiosParams } from '../types/utilTypes';
 
-export async function AGET(link : string, headers ?: Record<string, string>) {
-    try {
-        const response = await axios.get(link, {
-            headers:  {
+
+export default function AxiosUtil () {
+    
+    async function GET<T>({link,params,headers,} : AxiosParams) {
+        try {
+            const response = await axios.get<T>(link, {
+            params,
+            headers: {
                 'Content-Type': 'application/json',
-                ...(headers || {})
-            }
-        })
-        return response.data
-    } catch (error) {
-        console.log(error)
-        return error;
+                ...headers,
+            },
+            });
+            return response.data;
+        } catch (error: any) {
+            console.error('GET Error:', error.message);
+            throw error; // Re-throw error for caller handling
+        }
     }
-}
-
-export async function APOST(link : string, body : Object, headers ?: Record<string, string>) {
-    try {
-        const response = await axios.put(link, body, {
-            headers:  {
+    async function POST<T>({link,params,headers,body} : AxiosParams) {
+        try {
+            const response = await axios.post<T>(link, body, {
+            params,
+            headers: {
                 'Content-Type': 'application/json',
-                ...(headers || {})
-            }
-        })
-        return response.data
-    } catch (error) {
-        console.log(error)
-        return error;
+                ...headers,
+            },
+            });
+            return response.data;
+        } catch (error: any) {
+            console.error('POST Error:', error.message);
+            throw error; // Re-throw error for caller handling
+        }
     }
-}
-
-export async function APUT(link : string, body : Object, headers ?: Record<string, string>) {
-    try {
-        const response = await axios.post(link, body, {
-            headers:  {
+    async function PUT<T>({link,params,headers,body} : AxiosParams) {
+        try {
+            const response = await axios.post<T>(link, body, {
+            params,
+            headers: {
                 'Content-Type': 'application/json',
-                ...(headers || {})
-            }
-        })
-        return response.data
-    } catch (error) {
-        console.log(error)
-        return error;
+                ...headers,
+            },
+            });
+            return response.data;
+        } catch (error: any) {
+            console.error('POST Error:', error.message);
+            throw error; // Re-throw error for caller handling
+        }
     }
-}
-
-export async function ADELETE(link : string, headers ?: Record<string, string>) {
-    try {
-        const response = await axios.get(link, {
-            headers:  {
+    async function DELETE<T>({link,params,headers,} : AxiosParams) {
+        try {
+            const response = await axios.delete<T>(link, {
+            params,
+            headers: {
                 'Content-Type': 'application/json',
-                ...(headers || {})
-            }
-        })
-        return response.data
-    } catch (error) {
-        console.log(error)
-        return error;
+                ...headers,
+            },
+            });
+            return response.data;
+        } catch (error: any) {
+            console.error('GET Error:', error.message);
+            throw error; // Re-throw error for caller handling
+        }
     }
+    
+    return { GET, POST, PUT, DELETE}
 }
-

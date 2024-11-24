@@ -1,4 +1,4 @@
-import { DataHolder } from "../types/modelTypes"
+
   
 export function parseDate(dateString:any) : any {
       return new Date(dateString.replace('T', ' '));
@@ -6,10 +6,16 @@ export function parseDate(dateString:any) : any {
   
 export function iso8601(durationString : string){
     return ["H","M","S"].map((data:any) => {
-      const inputs = durationString.match(new RegExp("(\\d+)" + data)) 
-      return (inputs ? inputs[1] : "0").padStart(2, '0')
+        const inputs = durationString.match(new RegExp("(\\d+)" + data)) 
+        return (inputs ? inputs[1] : "0").padStart(2, '0')
     }).join(":")
-  }
+}
+export function toISO8601(totalSeconds : number){    
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return `P${hours}H${minutes}M${seconds}S`;
+}
 
 
 export const dateTimeFormatter = (date : Date, type ?: string ) => {
@@ -21,6 +27,17 @@ export const dateTimeFormatter = (date : Date, type ?: string ) => {
             dateData = {
                 hour: '2-digit',
                 minute: '2-digit',
+            }
+            break;
+        case "MM/DD":
+            dateData = {
+                month: 'long',
+                day: 'numeric'
+            }
+            break;
+        case "YYYY":
+            dateData = {
+                year : 'numeric',
             }
             break;
         default:

@@ -4,4 +4,4 @@ import ServerUtils from './utils/SeverUtil';
 
 dotenv.config();
 
-ServerUtils.init(6000)
+ServerUtils.init(8080)
