@@ -75,7 +75,7 @@ export default class ClockifyController {
 
         return {
             rows : sortedData,
-            fullname : name,
+            fullname : jsonData.name,
             job : jsonData.job ?? '',
             period : period,
             totalDuration :  iso8601(isoDuration),
